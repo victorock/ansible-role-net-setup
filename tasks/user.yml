@@ -1,0 +1,6 @@
+- name: "Ensure net_user"
+  net_user:
+    aggregate: "{{ net_users }}"
+    purge: true
+    state: "present"
+  when: net_users

@@ -1,0 +1,7 @@
+---
+- name: "Ensure net_linkagg"
+  net_linkagg:
+    aggregate: "{{ net_linkaggs }}"
+    purge: true
+    state: "present"
+  when: net_linkaggs

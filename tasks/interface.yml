@@ -1,0 +1,7 @@
+---
+- name: "Ensure net_interface"
+  net_interface:
+    aggregate: "{{ net_interfaces }}"
+    purge: true
+    state: "present"
+  when: net_interfaces

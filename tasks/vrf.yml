@@ -1,0 +1,7 @@
+---
+- name: "Ensure net_vrf"
+  net_vrf:
+    aggregate: "{{ net_vrfs }}"
+    purge: true
+    state: "present"
+  when: net_vrfs

@@ -1,0 +1,7 @@
+---
+- name: "Ensure net_vlan"
+  net_vlan:
+    aggregate: "{{ net_vlans }}"
+    purge: true
+    state: "present"
+  when: net_vlans

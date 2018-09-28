@@ -1,0 +1,7 @@
+---
+- name: "Ensure net_static_route"
+  net_static_route:
+    aggregate: "{{ static_routes }}"
+    purge: true
+    state: present
+  when: static_routes

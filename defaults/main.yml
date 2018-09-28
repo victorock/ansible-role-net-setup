@@ -1,0 +1,14 @@
+---
+net_users: []
+net_banner: {}
+net_interfaces: []
+net_l2_interfaces: []
+net_l3_interfaces: []
+net_linkaggs: []
+net_lldp_interfaces: []
+net_loggings: []
+net_pings: []
+net_static_routes: []
+net_system: {}
+net_vlans: []
+net_vrfs: []
