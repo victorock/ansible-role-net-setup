@@ -6,20 +6,23 @@ galaxy_info:
   license: "GPLv3"
   min_ansible_version: 2.4
   platforms:
-   - name: junos
-     versions:
-     - all
-   - name: nxos
-     versions:
-     - all
    - name: eos
      versions:
      - all
    - name: ios
      versions:
      - all
+   - name: iosxr
+     versions:
+     - all
+   - name: junos
+     versions:
+     - all
+   - name: nxos
+     versions:
+     - all
   galaxy_tags:
-    - network
+    - networking
     - configuration
     - agnostic
   dependencies: []
