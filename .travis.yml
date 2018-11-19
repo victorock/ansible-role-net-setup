@@ -6,9 +6,6 @@ python:
 services:
   - docker
 before_install:
-  - sudo apt-get -qq update
-install:
-  - pip install pip --upgrade
-  - pip install ansible molecule boto boto3 --upgrade
+  - docker pull victorock/ansible-network:latest
 script:
-  - molecule test
+  - docker run --privileged --volume=/var/lib/docker --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro --volume="$PWD":/ansible:rw --name $timestamp  victorock/ansible-network:latest molecule test
