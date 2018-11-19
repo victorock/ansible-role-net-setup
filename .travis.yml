@@ -8,6 +8,6 @@ services:
 before_install:
   - sudo apt-get -qq update
 install:
-  - pip install ansible molecule boto boto3
+  - pip install ansible molecule boto boto3 --upgrade
 script:
   - molecule test
