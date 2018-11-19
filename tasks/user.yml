@@ -1,3 +1,4 @@
+---
 - name: "Ensure net_user"
   net_user:
     aggregate: "{{ net_users }}"

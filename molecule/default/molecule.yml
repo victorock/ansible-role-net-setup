@@ -1,0 +1,40 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: ec2
+  # Molecule doesn't considers these values
+  # They are used by create.yml
+  ec2:
+    region: us-east-1
+    vpc_subnet_id: subnet-07f61c4c
+    vpc: vpc-1d9c8b64
+lint:
+  name: yamllint
+platforms:
+  - name: rtr1
+    instance_type: t2.medium
+    image: ami-0d1e6af4c329efd82
+    connection_options:
+      ansible_user: ec2-user
+      ansible_port: 22
+      ansible_network_os: ios
+      ansible_connection: network_cli
+provisioner:
+  name: ansible
+  log: true
+  # Tells molecule to link scenario's inventory
+  inventory:
+    links:
+      group_vars: inventory/group_vars
+      host_vars: inventory/host_vars
+  lint:
+    name: ansible-lint
+scenario:
+  name: default
+verifier:
+  # testinfra do not apply to network
+  # goss is yaml based on verify.yml
+  name: goss
+  lint:
+    name: yamllint

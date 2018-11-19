@@ -1,7 +1,0 @@
----
-- hosts: all
-  connection: local
-  gather_facts: no
-  roles:
-    - role: role_under_test
-      autorun: true

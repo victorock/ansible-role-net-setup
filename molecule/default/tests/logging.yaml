@@ -1,0 +1,5 @@
+---
+- name: "verify logging"
+  debug:
+    msg: "not implemented"
+
