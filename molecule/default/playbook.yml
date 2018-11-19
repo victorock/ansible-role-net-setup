@@ -1,7 +1,6 @@
 ---
 - name: Converge
   hosts: all
-  connection: network_cli
   gather_facts: false
   roles:
     - role: ansible-role-net-setup

@@ -85,8 +85,6 @@
         instance_conf_dict: {
           'instance': "{{ item.instances[0].tags.instance }}",
           'address': "{{ item.instances[0].public_ip }}",
-          'user': "ec2-user",
-          'port': "22",
           'identity_file': "{{ lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') }}/ssh_key",
           'instance_ids': "{{ item.instance_ids }}", }
       with_items: "{{ ec2_jobs.results }}"

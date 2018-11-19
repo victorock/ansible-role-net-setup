@@ -6,6 +6,6 @@ services:
 before_install:
   - sudo apt-get -qq update
 install:
-  - pip install molecule molecule[ec2]
+  - pip install molecule molecule[ec2] boto3
 script:
   - molecule test

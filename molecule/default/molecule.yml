@@ -15,11 +15,6 @@ platforms:
   - name: rtr1
     instance_type: t2.medium
     image: ami-0d1e6af4c329efd82
-    connection_options:
-      ansible_user: ec2-user
-      ansible_port: 22
-      ansible_network_os: ios
-      ansible_connection: network_cli
 provisioner:
   name: ansible
   log: true
