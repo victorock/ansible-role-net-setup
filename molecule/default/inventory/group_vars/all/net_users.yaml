@@ -1,4 +1,0 @@
----
-net_users:
-  - name: ansible
-    configured_password: ansibleTest

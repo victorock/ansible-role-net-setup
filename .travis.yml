@@ -1,11 +1,13 @@
 ---
 sudo: required
 language: python
+python:
+  - "2.7"
 services:
   - docker
 before_install:
   - sudo apt-get -qq update
 install:
-  - pip install molecule boto boto3
+  - pip install ansible molecule boto boto3
 script:
   - molecule test
