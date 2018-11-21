@@ -1,0 +1,7 @@
+---
+net_system:
+  domain_name: testdomain
+  hostname: rtr1
+  name_servers:
+    - 1.1.1.1
+    - 1.1.1.2

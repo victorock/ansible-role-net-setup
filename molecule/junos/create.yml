@@ -6,6 +6,7 @@
   become_method: sudo
   gather_facts: false
   no_log: "{{ not (lookup('env', 'MOLECULE_DEBUG') | bool or molecule_yml.provisioner.log|default(false) | bool) }}"
+  # TODO: clean-up and better organize tasks
   tasks:
     - name: Create security group
       ec2_group:
@@ -16,6 +17,10 @@
           - proto: tcp
             from_port: "22"
             to_port: "22"
+            cidr_ip: '0.0.0.0/0'
+          - proto: tcp
+            from_port: "830"
+            to_port: "830"
             cidr_ip: '0.0.0.0/0'
           - proto: icmp
             from_port: 8

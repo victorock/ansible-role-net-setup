@@ -13,8 +13,8 @@ lint:
   name: yamllint
 platforms:
   - name: rtr1
-    instance_type: t2.medium
-    image: ami-0d1e6af4c329efd82
+    instance_type: m4.4xlarge
+    image: ami-a06209df
 provisioner:
   name: ansible
   log: true
@@ -26,7 +26,7 @@ provisioner:
   lint:
     name: ansible-lint
 scenario:
-  name: default
+  name: ios
 verifier:
   # testinfra do not apply to network
   # goss is yaml based on verify.yml

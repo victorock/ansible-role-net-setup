@@ -1,0 +1,16 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: "list tests"
+      find:
+        paths: "tests"
+        recurse: false
+      register: test_tasks
+
+    - name: "execute tests"
+      include_tasks: "{{ test_task.path }}"
+      loop: "{{ test_tasks.files }}"
+      loop_control:
+        loop_var: test_task

@@ -1,0 +1,4 @@
+---
+- name: "verify banner"
+  debug:
+    msg: "not implemented"

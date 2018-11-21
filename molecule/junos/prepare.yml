@@ -1,0 +1,18 @@
+---
+- name: Prepare
+  hosts: all
+  connection: network_cli
+  gather_facts: false
+
+  tasks:
+    - name: "enable netconf service on port 830"
+      junos_netconf:
+        listens_on: 830
+        state: present
+
+    - name: "validate version"
+      junos_command:
+        commands: "show version"
+        wait_for: "result[0] contains JUNOS"
+        retries: 20
+        interval: 5

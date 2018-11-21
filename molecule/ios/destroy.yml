@@ -7,16 +7,9 @@
   vars:
     ec2_region: us-east-1
   tasks:
-    - block:
-        - name: Populate instance config
-          set_fact:
-            instance_conf: "{{ lookup('file', molecule_instance_config) | molecule_from_yaml }}"
-            skip_instances: false
-      rescue:
-        - name: Populate instance config when file missing
-          set_fact:
-            instance_conf: {}
-            skip_instances: true
+    - name: Populate instance config
+      set_fact:
+        instance_conf: "{{ lookup('file', molecule_instance_config, errors='ignore') | default('', true) | molecule_from_yaml  }}"
 
     - name: Destroy molecule instance(s)
       ec2:
@@ -24,8 +17,8 @@
         state: absent
         instance_ids: "{{ item.instance_ids }}"
       register: server
-      with_items: "{{ instance_conf }}"
-      when: not skip_instances
+      loop: "{{ instance_conf }}"
+      when: instance_conf|length > 0
       async: 7200
       poll: 0
 
@@ -35,7 +28,22 @@
       register: ec2_jobs
       until: ec2_jobs.finished
       retries: 300
-      with_items: "{{ server.results }}"
+      loop: "{{ server.results }}"
+
+    - name: Ensure molecule instance(s) are really gone
+      ec2:
+        region: "{{ molecule_yml.driver.ec2.region }}"
+        state: absent
+        instance_ids: "{{ item.instance_ids }}"
+      loop: "{{ instance_conf }}"
+      when: instance_conf|length > 0
+
+    - name: Destroy security group
+      ec2_group:
+        name: "molecule"
+        region: "{{ molecule_yml.driver.ec2.region }}"
+        description: "Security group for testing Molecule"
+        state: absent
 
     # Mandatory configuration for Molecule to function.
 

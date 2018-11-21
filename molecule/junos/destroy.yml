@@ -1,0 +1,58 @@
+---
+- name: Destroy
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  no_log: "{{ not (lookup('env', 'MOLECULE_DEBUG') | bool or molecule_yml.provisioner.log|default(false) | bool) }}"
+  vars:
+    ec2_region: us-east-1
+  tasks:
+    - name: Populate instance config
+      set_fact:
+        instance_conf: "{{ lookup('file', molecule_instance_config, errors='ignore') | default('', true) | molecule_from_yaml  }}"
+
+    - name: Destroy molecule instance(s)
+      ec2:
+        region: "{{ molecule_yml.driver.ec2.region }}"
+        state: absent
+        instance_ids: "{{ item.instance_ids }}"
+      register: server
+      loop: "{{ instance_conf }}"
+      when: instance_conf|length > 0
+      async: 7200
+      poll: 0
+
+    - name: Wait for instance(s) deletion to complete
+      async_status:
+        jid: "{{ item.ansible_job_id }}"
+      register: ec2_jobs
+      until: ec2_jobs.finished
+      retries: 300
+      loop: "{{ server.results }}"
+
+    - name: Ensure molecule instance(s) are really gone
+      ec2:
+        region: "{{ molecule_yml.driver.ec2.region }}"
+        state: absent
+        instance_ids: "{{ item.instance_ids }}"
+      loop: "{{ instance_conf }}"
+      when: instance_conf|length > 0
+
+    - name: Destroy security group
+      ec2_group:
+        name: "molecule"
+        region: "{{ molecule_yml.driver.ec2.region }}"
+        description: "Security group for testing Molecule"
+        state: absent
+
+    # Mandatory configuration for Molecule to function.
+
+    - name: Populate instance config
+      set_fact:
+        instance_conf: {}
+
+    - name: Dump instance config
+      copy:
+        content: "{{ instance_conf | to_json | from_json | molecule_to_yaml | molecule_header }}"
+        dest: "{{ molecule_instance_config }}"
+      when: server.changed | bool

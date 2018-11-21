@@ -10,4 +10,4 @@ before_install:
 install:
   - pip install ansible molecule boto boto3 passlib ncclient netaddr xmltodict --upgrade
 script:
-  - molecule test
+  - molecule test --all

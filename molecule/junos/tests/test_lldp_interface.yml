@@ -1,0 +1,4 @@
+---
+- name: "verify lldp_interface"
+  debug:
+    msg: "not implemented"
