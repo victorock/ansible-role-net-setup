@@ -1,5 +1,4 @@
 ---
-- name: "verify static_route"
+- name: "verify lldp_interface"
   debug:
     msg: "not implemented"
-

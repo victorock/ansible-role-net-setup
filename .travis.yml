@@ -8,7 +8,6 @@ services:
 before_install:
   - sudo apt-get -qq update
 install:
-  - pip install pip --upgrade
-  - pip install ansible molecule boto boto3 --upgrade
+  - pip install ansible molecule boto boto3 passlib ncclient netaddr xmltodict --upgrade
 script:
   - molecule test

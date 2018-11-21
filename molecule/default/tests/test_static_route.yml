@@ -1,5 +1,4 @@
 ---
-- name: "verify system"
+- name: "verify static_route"
   debug:
     msg: "not implemented"
-

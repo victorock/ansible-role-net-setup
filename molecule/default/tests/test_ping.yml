@@ -2,4 +2,3 @@
 - name: "verify ping"
   debug:
     msg: "not implemented"
-

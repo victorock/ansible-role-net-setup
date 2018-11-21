@@ -1,5 +1,4 @@
 ---
-- name: "verify interface"
+- name: "verify banner"
   debug:
     msg: "not implemented"
-

@@ -1,5 +1,4 @@
 ---
-- name: "verify user"
+- name: "verify logging"
   debug:
     msg: "not implemented"
-

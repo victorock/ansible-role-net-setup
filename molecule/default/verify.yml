@@ -3,9 +3,6 @@
   hosts: all
   gather_facts: false
   tasks:
-    - name: "gather facts"
-      ios_facts:
-
     - name: "list tests"
       find:
         paths: "tests"
@@ -13,7 +10,7 @@
       register: test_tasks
 
     - name: "execute tests"
-      include_task: "{{ test_task.path }}"
-      loop: "{{ test_tasks }}"
+      include_tasks: "{{ test_task.path }}"
+      loop: "{{ test_tasks.files }}"
       loop_control:
         loop_var: test_task
