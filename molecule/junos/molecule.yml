@@ -6,18 +6,18 @@ driver:
   # Molecule doesn't considers these values
   # They are used by create.yml
   ec2:
-    region: us-east-1
-    vpc_subnet_id: subnet-07f61c4c
-    vpc: vpc-1d9c8b64
+    region: eu-west-2
+    vpc_subnet_id: subnet-6b9cff10
+    vpc: vpc-fb285892
 lint:
   name: yamllint
 platforms:
-  - name: rtr1
-    instance_type: t2.medium
-    image: ami-0d1e6af4c329efd82
+  - name: rtr1-junos
+    instance_type: c5.xlarge
+    image: ami-0a6f19b3b55f98b6f
 provisioner:
   name: ansible
-  log: true
+  log: false
   # Tells molecule to link scenario's inventory
   inventory:
     links:

@@ -14,8 +14,9 @@
         region: "{{ molecule_yml.driver.ec2.region }}"
         state: absent
         instance_ids: "{{ item.instance_ids }}"
+        wait: true
       register: server
-      loop: "{{ instance_conf | dict2items }}"
+      with_items: "{{ instance_conf }}"
       async: 7200
       poll: 0
 
@@ -25,14 +26,7 @@
       register: ec2_jobs
       until: ec2_jobs.finished
       retries: 300
-      loop: "{{ server.results }}"
-
-    - name: Ensure molecule instance(s) are really gone
-      ec2:
-        region: "{{ molecule_yml.driver.ec2.region }}"
-        state: absent
-        instance_ids: "{{ item.instance_ids }}"
-      loop: "{{ instance_conf | dict2items }}"
+      with_items: "{{ server.results }}"
 
     - name: Destroy security group
       ec2_group:

@@ -18,6 +18,10 @@
             from_port: "22"
             to_port: "22"
             cidr_ip: '0.0.0.0/0'
+          - proto: tcp
+            from_port: "830"
+            to_port: "830"
+            cidr_ip: '0.0.0.0/0'
           - proto: icmp
             from_port: 8
             to_port: -1
@@ -81,18 +85,27 @@
       retries: 300
       with_items: "{{ server.results }}"
 
+    - name: Gather instances facts
+      ec2_instance_facts:
+        region: "{{ molecule_yml.driver.ec2.region }}"
+        filters:
+          "tag:instance": "{{ item.name }}"
+          "instance-state-name": "running"
+      register: ec2_instances
+      with_items: "{{ molecule_yml.platforms }}"
+
     # Mandatory configuration for Molecule to function.
 
     - name: Populate instance config dict
       set_fact:
         instance_conf_dict: {
           'instance': "{{ item.instances[0].tags.instance }}",
-          'address': "{{ item.instances[0].public_ip }}",
+          'address': "{{ item.instances[0].public_ip_address }}",
           'user': "{{ ansible_user }}",
           'port': "{{ ansible_port }}",
           'identity_file': "{{ lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') }}/ssh_key",
-          'instance_ids': "{{ item.instance_ids }}", }
-      with_items: "{{ ec2_jobs.results }}"
+          'instance_ids': "{{ item.instances[0].instance_id }}", }
+      with_items: "{{ ec2_instances.results }}"
       register: instance_config_dict
       when: server.changed | bool
 

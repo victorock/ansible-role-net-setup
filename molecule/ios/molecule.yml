@@ -12,12 +12,12 @@ driver:
 lint:
   name: yamllint
 platforms:
-  - name: rtr1
-    instance_type: m4.4xlarge
-    image: ami-a06209df
+  - name: rtr1-ios
+    instance_type: t2.medium
+    image: ami-0d1e6af4c329efd82
 provisioner:
   name: ansible
-  log: true
+  log: false
   # Tells molecule to link scenario's inventory
   inventory:
     links:
